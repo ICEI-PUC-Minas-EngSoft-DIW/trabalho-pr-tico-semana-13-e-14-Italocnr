@@ -1,0 +1,195 @@
+*{
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto', sans-serif; 
+    box-sizing: border-box;
+}
+
+body {
+    line-height: 1.6;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    background-color: #f7f7f7 !important;
+}
+
+main {
+    padding-top: 80px; 
+}
+
+/* --- Barra de Navegação*/
+#mainNav {
+    background-color: #084b81 !important; 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+#mainNav .navbar-nav .nav-link {
+    color: #FFC300; 
+    font-weight: 600;
+    margin: 0 10px;
+    transition: color 0.3s;
+}
+
+#mainNav .navbar-nav .nav-link:hover {
+    color: white; 
+}
+
+#mainNav .navbar-toggler {
+    border-color: #FFC300; 
+}
+
+
+#mainNav .btn-warning {
+    background-color: #FFC300;
+    border-color: #FFC300;
+    color: #003366; 
+    font-weight: bold;
+}
+#mainNav .form-control {
+    border-radius: 50px;
+}
+
+/* --- Header --- */
+header {
+    height: 300px;
+    background-color: #003366 !important;
+    color: white;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.4);
+    background-blend-mode: multiply;
+    padding: 120px 20px 0 20px;
+}
+
+
+
+/* --- SEÇÃO: DETALHES DE PROJETOS E ATIVIDADES --- */
+
+#detalhes-projeto {
+    padding-top: 100px; 
+    padding-bottom: 50px;
+    background-color: #e0f2f7; 
+    color: #003366;
+}
+
+#detalhes-projeto h1 {
+    font-size: 3.5rem; 
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.text-primary-color {
+    color: #003366 !important;
+}
+
+.bg-primary-color {
+    background-color: #003366 !important;
+}
+
+#detalhes-projeto p.lead {
+    font-size: 1.25rem;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Seções de Detalhes  */
+#details-section-1,
+#details-section-2 { 
+    padding-top: 60px;
+    padding-bottom: 60px;
+}
+
+#details-section-1 img,
+#details-section-2 img {
+    border-radius: 10px; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+}
+
+#details-section-1 h3,
+#details-section-2 h3 {
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+/* Seção de Galeria de Fotos */
+#gallery-section {
+    padding-top: 60px;
+    padding-bottom: 60px;
+    background-color: #f7f7f7; 
+}
+
+#gallery-section h3 {
+    font-weight: bold;
+}
+
+#gallery-section img {
+    height: 200px; 
+    object-fit: cover; 
+    width: 100%; 
+    border-radius: 8px;
+    transition: transform 0.3s ease; 
+}
+
+#gallery-section img:hover {
+    transform: scale(1.03); 
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); 
+}
+
+
+#depoimento-section {
+    padding-top: 80px;
+    padding-bottom: 80px;
+    background-color: #e0f2f7; 
+}
+
+.blockquote {
+    border-left: 5px solid #003366; 
+    padding-left: 20px;
+    margin-left: 0;
+}
+
+.blockquote p {
+    font-style: italic; 
+    color: #333; 
+}
+
+.blockquote-footer {
+    color: #666; 
+}
+
+/* Botão para realizar pré-matrícula no projeto*/
+#btn-section {
+    padding-top: 70px;
+    padding-bottom: 70px;
+}
+
+#btn-section h2 {
+    font-weight: bold;
+    font-size: 2.5rem;
+    margin-bottom: 30px;
+    color: #333;
+}
+
+
+
+
+/* Footer */
+footer {
+    background-color: #003366;
+    color: white;
+    text-align: center;
+    padding: 40px 20px;
+    font-size: 15px;
+}
+
+footer strong {
+    font-size: 1.1em;
+}
+
+footer a {
+    color: #FFC300;
+}
+
+footer a:hover {
+    color: white;
+}

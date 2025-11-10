@@ -1,0 +1,618 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    line-height: 1.6;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    background-color: #F7F7F7;
+}
+
+
+main {
+    padding-top: 80px;
+}
+
+/* --- Barra de Navegação*/
+#mainNav {
+    background-color: #084b81 !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+#mainNav .navbar-nav .nav-link {
+    color: #FFC300;
+    font-weight: 600;
+    margin: 0 10px;
+    transition: color 0.3s;
+}
+
+#mainNav .navbar-nav .nav-link:hover {
+    color: white;
+}
+
+#mainNav .navbar-toggler {
+    border-color: #FFC300;
+}
+
+
+#mainNav .btn-warning {
+    background-color: #FFC300;
+    border-color: #FFC300;
+    color: #003366;
+    font-weight: bold;
+}
+
+#mainNav .form-control {
+    border-radius: 50px;
+}
+
+#mainNav .dropdown-menu {
+    background-color: #084b81;
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+#mainNav .dropdown-item {
+    color: #FFC300;
+    padding: 10px 20px;
+    transition: all 0.3s;
+}
+
+#mainNav .dropdown-item:hover {
+    background-color: rgba(255, 195, 0, 0.1);
+    color: white;
+}
+
+#mainNav .dropdown-toggle::after {
+    margin-left: 8px;
+}
+
+
+/* --- Header --- */
+header {
+    height: 400px;
+    background-image: url('../img/banner.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    color: white;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.4);
+    background-blend-mode: multiply;
+    padding: 120px 20px 0 20px;
+}
+
+header h1 {
+    font-size: 40px;
+    margin-bottom: 15px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+header p {
+    font-size: 20px;
+    max-width: 700px;
+    margin: 0 auto;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+/* --- Seções Principais (MAIN) --- */
+main section {
+    padding: 60px 20px;
+    border-bottom: 1px solid #ddd;
+}
+
+main section h2 {
+    font-size: 32px;
+    margin-bottom: 30px;
+    color: #003366;
+    text-align: center;
+}
+
+main section h3 {
+    color: #003366;
+}
+
+.text-primary-color {
+    color: #003366 !important;
+}
+
+/* --- ESTILO PARA O CARROSSEL MVV (Missão, Visão, Valores) --- */
+#m_v_v {
+    background-color: #f7f7f7;
+    position: relative;
+}
+
+.carousel-inner {
+    min-height: 350px;
+    padding: 20px 0;
+    overflow: hidden;
+    position: relative;
+}
+
+.carousel-item {
+    min-height: 300px;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+
+    opacity: 0;
+    transition: opacity 0.6s ease-in-out;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.carousel-item.active {
+    opacity: 1 !important;
+    z-index: 1;
+}
+
+.mvv-card {
+    max-width: 600px;
+    width: 100%;
+    margin: 0 30px;
+    text-align: center;
+
+    background-color: white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    border-radius: 10px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.mvv-card h2 {
+    color: #003366;
+    margin-bottom: 15px;
+    font-size: 28px;
+}
+
+.mvv-card ul {
+    list-style: none;
+    padding: 0;
+    text-align: left;
+    max-width: 300px;
+}
+
+.mvv-card ul li {
+    margin-bottom: 5px;
+    position: relative;
+    padding-left: 25px;
+}
+
+.mvv-card ul li::before {
+    content: "★";
+    color: #FFC300;
+    font-size: 14px;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+#mvvCarousel .carousel-control-prev-icon,
+#mvvCarousel .carousel-control-next-icon {
+    filter: invert(1);
+    background-size: 25px;
+}
+
+
+/* Secção de história da escola e linha do tempo*/
+#he {
+    margin-top: 50px;
+    background-color: #f7f7f7;
+    position: relative;
+}
+
+.timeline {
+    position: relative;
+    padding: 20px 0;
+    margin-top: 30px;
+}
+
+.timeline-dot {
+    width: 20px;
+    height: 20px;
+    background-color: #003366;
+    border: 3px solid #FFC300;
+    border-radius: 50%;
+    margin: 0 auto;
+    position: relative;
+    z-index: 10;
+}
+
+.timeline-event h3 {
+    color: #003366;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.timeline-event img {
+    max-height: 250px;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+
+/* Secção de professores */
+section#prof {
+    margin-top: 50px;
+    background-color: #f7f7f7;
+}
+
+.professores.conteiner {
+    background-color: #f7f7f7;
+    margin-top: 0px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 50px;
+    padding: 20px 0;
+}
+
+.professor-card {
+    width: 300px;
+    max-width: 300px;
+    background-color: white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+
+.professor-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+.card-image-container {
+    position: relative;
+    width: 100%;
+    padding-top: 100%;
+    overflow: hidden;
+}
+
+.card-image-container img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: opacity 0.3s ease;
+    border-radius: 0;
+}
+
+/* Estilo do Overlay */
+.card-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 51, 102, 0.85);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    padding: 20px;
+    text-align: center;
+}
+
+.professor-card:hover .card-overlay {
+    opacity: 1;
+}
+
+.overlay-text {
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+
+.card-info {
+    padding: 15px;
+    text-align: center;
+}
+
+.card-info h3 {
+    margin-bottom: 5px;
+    font-size: 1.2em;
+}
+
+/* Secção de Projetos e Atividades (#pa) */
+.projetos-cards .card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    min-height: 480px;
+    /* Altura mínima para alinhamento */
+}
+
+.projetos-cards .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+.projetos-cards .card-title {
+    color: #003366 !important;
+    font-weight: bold;
+}
+
+.projetos-cards .btn-primary {
+    background-color: #003366;
+    border-color: #003366;
+    transition: background-color 0.3s;
+}
+
+.projetos-cards .btn-primary:hover {
+    background-color: #084b81;
+    border-color: #084b81;
+}
+
+.projetos-cards .card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 100%;
+}
+
+#pa .card-body .card-text {
+    flex-grow: 1;
+}
+
+/* Secção de Eventos (#eventos) */
+#eventos {
+    background-color: #f7f7f7;
+}
+
+.eventos-cards .card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    min-height: 480px;
+    height: 100%;
+}
+
+.eventos-cards .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+.eventos-cards .card-title {
+    color: #003366 !important;
+    font-weight: bold;
+}
+
+.eventos-cards .btn-primary {
+    background-color: #003366;
+    border-color: #003366;
+    transition: background-color 0.3s;
+}
+
+.eventos-cards .btn-primary:hover {
+    background-color: #084b81;
+    border-color: #084b81;
+}
+
+.eventos-cards .card-body .card-text {
+    flex-grow: 1;
+}
+
+/* Secção Calendário (#ce) */
+#ce {
+    text-align: center;
+    background-color: #ffffff;
+}
+
+#ce img {
+    max-width: 900px;
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+/* Secção Pré-Matrícula (#ma) */
+#ma {
+    /* Corrigido: Removido o background amarelo, usando a cor clara padrão */
+    background-color: #f7f7f7;
+}
+
+#ma .card {
+    border: none;
+    border-radius: 10px;
+}
+
+#ma .card-title {
+    color: #003366;
+    font-weight: bold;
+}
+
+#ma .btn-primary {
+    background-color: #003366;
+    border-color: #003366;
+}
+
+#ma .btn-primary:hover {
+    background-color: #084b81;
+    border-color: #084b81;
+}
+
+
+/* --- Footer --- */
+footer {
+    background-color: #003366;
+    color: white;
+    text-align: center;
+    padding: 20px 15px;
+    font-size: 14px;
+}
+
+footer p {
+    margin-bottom: 5px;
+}
+
+footer a {
+    color: #FFC300;
+    text-decoration: none;
+    margin: 0 5px;
+    transition: color 0.3s;
+}
+
+footer a:hover {
+    color: white;
+}
+
+
+/* --- RESPONSIVIDADE: MOBILE (max-width: 767px) --- */
+@media (max-width: 767px) {
+    main section {
+        padding: 40px 15px;
+    }
+
+    main section h2 {
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+
+    header {
+        height: 300px;
+        padding: 100px 15px 0 15px;
+    }
+
+    header h1 {
+        font-size: 30px;
+    }
+
+    header p {
+        font-size: 16px;
+    }
+
+    /* CARROSSEL DE ROLAGEM para Professores */
+    .professores.conteiner {
+        flex-wrap: nowrap;
+        overflow-x: scroll;
+        justify-content: flex-start;
+        gap: 0;
+        padding: 0 15px;
+
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+
+    .professores.conteiner::-webkit-scrollbar {
+        display: none;
+    }
+
+    .professor-card {
+        width: 80vw;
+        flex-shrink: 0;
+        margin-right: 15px;
+        margin-bottom: 0;
+    }
+
+    .timeline::before {
+        display: none;
+    }
+
+    .timeline-event.row {
+        flex-direction: column !important;
+    }
+
+    .timeline-event div:not(.timeline-dot) {
+        margin-bottom: 20px;
+        box-shadow: none;
+        border-left: 5px solid #003366;
+        padding: 15px;
+    }
+
+    .timeline-event .col-md-5,
+    .timeline-event .col-md-7,
+    .timeline-event .col-md-2 {
+        width: 100% !important;
+        text-align: left !important;
+        order: unset !important;
+    }
+
+    .timeline-event .col-md-5.text-md-end {
+        text-align: left !important;
+    }
+
+    .timeline-dot {
+        display: none;
+    }
+
+    .timeline-event img {
+        margin-top: 10px;
+        max-height: 200px;
+    }
+
+    /* Ajustes de Cards de Projeto */
+    .projetos-cards .card {
+        min-height: auto;
+    }
+
+    /* Ajustes de Cards de Eventos */
+    .eventos-cards .card {
+        min-height: auto;
+    }
+
+    /* Ajustes de footer */
+    footer p {
+        font-size: 14px;
+        line-height: 1.8;
+    }
+
+    #mvvCarousel .carousel-control-prev,
+    #mvvCarousel .carousel-control-next {
+        width: 5%;
+    }
+}
+
+.event-card .event-image-container {
+    position: relative;
+}
+
+.event-card .card-img-top {
+    border-bottom: 3px solid #003366; 
+}
+
+.event-card .event-date-overlay {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    font-size: 0.9rem;
+    padding: 5px 10px !important;
+    border-top-left-radius: 8px;
+    z-index: 10;
+    background-color: #003366 !important; /* Cor Primária Escura */
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.event-card .card-title {
+    color: #003366 !important;
+}
+
+.event-card:hover {
+    transform: translateY(-5px);
+    transition: transform 0.3s ease-in-out;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15) !important;
+}
+
+
+.card.event-card .card-header h5 {
+    font-weight: bold;
+}
+
+.btn-primary {
+    background-color: #003366;
+    border-color: #003366;
+}
+
+.btn-primary:hover {
+    background-color: #004085;
+    border-color: #004085;
+}
