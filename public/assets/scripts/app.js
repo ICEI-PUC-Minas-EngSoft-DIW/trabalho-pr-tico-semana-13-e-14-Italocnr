@@ -315,10 +315,64 @@ const API_URL = 'http://localhost:3000';
 
 // Lógica JavaScript para Carregar Eventos da API na página index.html
 document.addEventListener('DOMContentLoaded', () => {
+    // Carregar eventos no carrossel de destaque
+    const eventosDestaqueSection = document.getElementById('eventos-destaque');
+    if (eventosDestaqueSection) {
+        loadEventosDestaque();
+    }
+
     // Carregar eventos na página inicial se existir a seção de eventos
     const eventosSection = document.getElementById('eventos');
     if (eventosSection) {
         loadEventos();
+    }
+
+    // Inicializar calendário (com delay para garantir que FullCalendar esteja carregado)
+    const calendarEl = document.getElementById('calendar');
+    if (calendarEl) {
+        // Função para verificar se FullCalendar está carregado e inicializar
+        function tentarInicializarCalendario(tentativas = 0) {
+            // Verificar se FullCalendar está disponível (pode estar em window.FullCalendar ou apenas FullCalendar)
+            const fcAvailable = typeof FullCalendar !== 'undefined' || 
+                               (typeof window !== 'undefined' && typeof window.FullCalendar !== 'undefined');
+            
+            if (fcAvailable) {
+                console.log('FullCalendar carregado, inicializando calendário...');
+                initCalendar();
+            } else if (tentativas < 20) {
+                // Tentar novamente após 300ms (aumentado para dar mais tempo)
+                setTimeout(() => {
+                    tentarInicializarCalendario(tentativas + 1);
+                }, 300);
+            } else {
+                console.error('FullCalendar não foi carregado após várias tentativas. Verifique a conexão com o CDN.');
+                calendarEl.innerHTML = `
+                    <div class="alert alert-warning">
+                        <h5>Erro ao carregar o calendário</h5>
+                        <p>O FullCalendar não foi carregado. Possíveis causas:</p>
+                        <ul>
+                            <li>Problema de conexão com a internet</li>
+                            <li>Bloqueio de CDN pelo navegador</li>
+                            <li>Erro no carregamento do script</li>
+                        </ul>
+                        <p><strong>Tente recarregar a página (F5)</strong></p>
+                    </div>
+                `;
+            }
+        }
+        
+        // Aguardar a página carregar completamente antes de começar a verificar
+        if (document.readyState === 'complete') {
+            setTimeout(() => {
+                tentarInicializarCalendario();
+            }, 500);
+        } else {
+            window.addEventListener('load', function() {
+                setTimeout(() => {
+                    tentarInicializarCalendario();
+                }, 500);
+            });
+        }
     }
 
     // Formulário de matrícula
@@ -327,6 +381,280 @@ document.addEventListener('DOMContentLoaded', () => {
         formMatricula.addEventListener('submit', salvarMatricula);
     }
 });
+
+// Função para inicializar o calendário FullCalendar
+async function initCalendar() {
+    const calendarEl = document.getElementById('calendar');
+    if (!calendarEl) {
+        console.warn('Elemento calendar não encontrado');
+        return;
+    }
+
+    try {
+        // Buscar eventos da API
+        let response = await fetch(`${API_URL}/eventos?ativo=true`);
+        let eventos = [];
+        
+        // Se não funcionar, buscar todos e filtrar
+        if (!response.ok) {
+            response = await fetch(`${API_URL}/eventos`);
+        }
+        
+        if (response.ok) {
+            eventos = await response.json();
+            if (!Array.isArray(eventos)) eventos = [];
+            
+            // Filtrar apenas eventos ativos e com data válida
+            eventos = eventos.filter(e => {
+                if (!e || !e.data) return false;
+                const ativoValue = e.ativo;
+                return ativoValue !== false && ativoValue !== 'false' && ativoValue !== 0 && ativoValue !== '0';
+            });
+        } else {
+            console.warn('Erro ao buscar eventos:', response.status);
+        }
+
+        // Função para obter cor baseada no tipo de evento
+        const getEventColor = (tipo) => {
+            const cores = {
+                'evento-escolar': { bg: '#003366', border: '#084b81' },
+                'prova-geral': { bg: '#dc3545', border: '#c82333' },
+                'reuniao-pais': { bg: '#28a745', border: '#218838' },
+                'feriado': { bg: '#ffc107', border: '#e0a800' },
+                'atividade-extracurricular': { bg: '#17a2b8', border: '#138496' },
+                'formacao': { bg: '#6f42c1', border: '#5a32a3' },
+                'outro': { bg: '#6c757d', border: '#5a6268' }
+            };
+            
+            return cores[tipo] || cores['evento-escolar'];
+        };
+
+        // Converter eventos para formato FullCalendar
+        const calendarEvents = eventos.map(evento => {
+            const tipo = evento.tipo || 'evento-escolar';
+            const cores = getEventColor(tipo);
+            
+            return {
+                title: evento.titulo || 'Evento',
+                start: evento.data,
+                allDay: true,
+                backgroundColor: cores.bg,
+                borderColor: cores.border,
+                textColor: '#ffffff',
+                extendedProps: {
+                    id: evento.id,
+                    introducao: evento.introducao || '',
+                    tipo: tipo
+                }
+            };
+        });
+
+        // Inicializar FullCalendar
+        const calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',
+            locale: 'pt-br',
+            headerToolbar: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'dayGridMonth,listWeek'
+            },
+            events: calendarEvents,
+            eventClick: function(info) {
+                const eventoId = info.event.extendedProps.id;
+                if (eventoId) {
+                    window.location.href = `detalhes-evento.html?id=${eventoId}`;
+                }
+            },
+            height: 'auto',
+            eventDisplay: 'block',
+            dayMaxEvents: true
+        });
+
+        calendar.render();
+        console.log('Calendário index inicializado com', calendarEvents.length, 'eventos');
+    } catch (error) {
+        console.error('Erro ao carregar eventos para o calendário:', error);
+        // Inicializar calendário vazio mesmo com erro
+        try {
+            if (typeof FullCalendar !== 'undefined') {
+                const calendar = new FullCalendar.Calendar(calendarEl, {
+                    initialView: 'dayGridMonth',
+                    locale: 'pt-br',
+                    headerToolbar: {
+                        left: 'prev,next today',
+                        center: 'title',
+                        right: 'dayGridMonth,listWeek'
+                    },
+                    height: 'auto'
+                });
+                calendar.render();
+                console.log('Calendário inicializado sem eventos');
+            } else {
+                throw new Error('FullCalendar não está disponível');
+            }
+        } catch (e) {
+            console.error('Erro ao inicializar calendário vazio:', e);
+            calendarEl.innerHTML = '<div class="alert alert-danger">Erro ao carregar calendário: ' + e.message + '</div>';
+        }
+    }
+}
+
+// Função para carregar eventos no carrossel de destaque
+async function loadEventosDestaque() {
+    const carouselInner = document.getElementById('eventos-carousel-inner');
+    const carouselIndicators = document.getElementById('eventos-carousel-indicators');
+    
+    if (!carouselInner || !carouselIndicators) {
+        console.error('Elementos do carrossel não encontrados');
+        return;
+    }
+    
+    try {
+        console.log('Buscando eventos para o carrossel...');
+        let response = await fetch(`${API_URL}/eventos?ativo=true`);
+        
+        if (!response.ok) {
+            response = await fetch(`${API_URL}/eventos`);
+        }
+        
+        if (!response.ok) {
+            throw new Error(`Erro HTTP: ${response.status}`);
+        }
+        
+        let eventos = await response.json();
+        
+        if (!Array.isArray(eventos)) {
+            eventos = [];
+        }
+        
+        // Filtrar apenas eventos ativos e ordenar por data (mais próximos primeiro)
+        eventos = eventos.filter(e => {
+            const ativoValue = e.ativo;
+            return ativoValue !== false && ativoValue !== 'false' && ativoValue !== 0 && ativoValue !== '0';
+        });
+        
+        // Ordenar por data (mais próximos primeiro)
+        eventos.sort((a, b) => {
+            const dataA = new Date(a.data);
+            const dataB = new Date(b.data);
+            return dataA - dataB;
+        });
+        
+        // Limitar a 5 eventos mais próximos
+        eventos = eventos.slice(0, 5);
+        
+        if (eventos.length === 0) {
+            carouselInner.innerHTML = `
+                <div class="carousel-item active">
+                    <div class="evento-destaque-slide" style="background-image: url('assets/img/banner.jpg');">
+                        <div class="evento-destaque-overlay">
+                            <div class="evento-destaque-content">
+                                <h3>Nenhum evento disponível</h3>
+                                <p>Em breve teremos novos eventos para você!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            return;
+        }
+        
+        // Limpar conteúdo existente
+        carouselInner.innerHTML = '';
+        carouselIndicators.innerHTML = '';
+        
+        // Criar slides do carrossel
+        eventos.forEach((evento, index) => {
+            const imagem = evento.imagemBase64 || evento.secaoDetalhes1?.imagem || 'assets/img/banner.jpg';
+            const titulo = evento.titulo || 'Evento';
+            const introducao = evento.introducao || 'Descrição do evento';
+            const data = evento.data ? formatarDataCarrossel(evento.data) : '';
+            const eventoId = evento.id || '';
+            
+            // Criar indicador
+            const indicator = document.createElement('button');
+            indicator.type = 'button';
+            indicator.setAttribute('data-bs-target', '#eventosCarousel');
+            indicator.setAttribute('data-bs-slide-to', index);
+            indicator.setAttribute('aria-label', `Slide ${index + 1}`);
+            if (index === 0) {
+                indicator.classList.add('active');
+                indicator.setAttribute('aria-current', 'true');
+            }
+            carouselIndicators.appendChild(indicator);
+            
+            // Criar slide
+            const slide = document.createElement('div');
+            slide.className = 'carousel-item';
+            if (index === 0) {
+                slide.classList.add('active');
+            }
+            
+            slide.innerHTML = `
+                <div class="evento-destaque-slide" style="background-image: url('${imagem}');">
+                    <div class="evento-destaque-overlay">
+                        <div class="evento-destaque-content">
+                            ${data ? `<span class="evento-destaque-date"><i class="fas fa-calendar-alt me-2"></i>${data}</span>` : ''}
+                            <h3>${escapeHtml(titulo)}</h3>
+                            <p>${escapeHtml(introducao.substring(0, 200))}${introducao.length > 200 ? '...' : ''}</p>
+                            <a href="detalhes-evento.html?id=${eventoId}" class="btn btn-warning btn-lg mt-3">
+                                <i class="fas fa-info-circle me-2"></i>Saiba Mais
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            carouselInner.appendChild(slide);
+        });
+        
+        console.log(`${eventos.length} eventos carregados no carrossel`);
+    } catch (error) {
+        console.error('Erro ao carregar eventos no carrossel:', error);
+        carouselInner.innerHTML = `
+            <div class="carousel-item active">
+                <div class="evento-destaque-slide" style="background-image: url('assets/img/banner.jpg');">
+                    <div class="evento-destaque-overlay">
+                        <div class="evento-destaque-content">
+                            <h3>Erro ao carregar eventos</h3>
+                            <p>Verifique se o servidor está rodando em http://localhost:3000</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+}
+
+// Função auxiliar para formatar data no carrossel
+function formatarDataCarrossel(dataString) {
+    if (!dataString) return '';
+    try {
+        let data;
+        if (dataString.includes('T') || dataString.includes('Z') || dataString.includes('+')) {
+            data = new Date(dataString);
+        } else {
+            const parts = dataString.split('-');
+            data = new Date(parts[0], parts[1] - 1, parts[2]);
+        }
+        return data.toLocaleDateString('pt-BR', { 
+            day: '2-digit', 
+            month: 'long', 
+            year: 'numeric',
+            timeZone: 'UTC'
+        });
+    } catch {
+        return dataString;
+    }
+}
+
+// Função auxiliar para escapar HTML
+function escapeHtml(str) {
+    if (!str) return '';
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+}
 
 // Função para salvar matrícula via API
 async function salvarMatricula(e) {
@@ -344,7 +672,7 @@ async function salvarMatricula(e) {
     const messageDiv = document.getElementById('matricula-message');
     
     try {
-        const response = await fetch(`${API_URL}/matriculas`, {
+        const response = await fetch(`${API_URL}/preMatriculas`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(matricula)
@@ -361,12 +689,14 @@ async function salvarMatricula(e) {
                 messageDiv.style.display = 'none';
             }, 5000);
         } else {
+            const errorText = await response.text();
+            console.error('Erro na resposta:', errorText);
             throw new Error('Erro ao salvar matrícula');
         }
     } catch (error) {
         console.error('Erro ao salvar matrícula:', error);
         messageDiv.className = 'alert alert-danger mt-3';
-        messageDiv.textContent = 'Erro ao enviar pré-matrícula. Por favor, tente novamente.';
+        messageDiv.textContent = 'Erro ao enviar pré-matrícula. Por favor, verifique se o servidor está rodando e tente novamente.';
         messageDiv.style.display = 'block';
     }
 }
@@ -468,7 +798,7 @@ function createEventoCard(evento) {
             <div class="card-body d-flex flex-column">
                 <h5 class="card-title text-primary-color">${escapeHtml(titulo)}</h5>
                 <p class="card-text flex-grow-1">${escapeHtml(introducao.substring(0, 120))}${introducao.length > 120 ? '...' : ''}</p>
-                <a href="eventos.html?id=${escapeHtml(eventoId)}" class="btn btn-primary mt-auto align-self-center">Saiba Mais</a>
+                <a href="detalhes-evento.html?id=${escapeHtml(eventoId)}" class="btn btn-primary mt-auto align-self-center">Saiba Mais</a>
             </div>
         </div>
     `;
@@ -519,30 +849,49 @@ function showEventoError(eventoTitle) {
     
 
 // Lógica JavaScript para Carregar Detalhes na página detalhes.html 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     const urlParams = new URLSearchParams(window.location.search);
     const projectId = urlParams.get('id');
 
-    // Verifica se o ID existe na URL e se o projeto correspondente existe no nosso JSON
-    if (projectId && projetosDetalhes[projectId]) {
+    if (!projectId) {
+        showProjectError("ID não fornecido na URL.");
+        return;
+    }
+
+    // Primeiro, tenta carregar da API (eventos dinâmicos)
+    try {
+        const response = await fetch(`${API_URL}/eventos/${projectId}`);
+        if (response.ok) {
+            const evento = await response.json();
+            loadEventDetails(evento);
+            return;
+        }
+    } catch (error) {
+        console.log('Evento não encontrado na API, tentando projetos estáticos...', error);
+    }
+
+    // Se não encontrou na API, tenta carregar dos projetos estáticos
+    if (projetosDetalhes[projectId]) {
         loadProjectDetails(projetosDetalhes[projectId]);
     } else {
-        // Lidar com projeto não encontrado ou ID ausente
-        console.error("Projeto não encontrado ou ID ausente na URL.");
-        // Exibir uma mensagem de erro ou redirecionar
-        const projectTitle = document.getElementById('project-title');
-        if (projectTitle) projectTitle.textContent = "Projeto Não Encontrado";
-        
-        const projectIntro = document.getElementById('project-intro');
-        if (projectIntro) projectIntro.textContent = "Parece que o projeto que você procura não existe ou o link está inválido. Por favor, retorne à página inicial.";
-
-        // Ocultar seções dinâmicas se o projeto não for encontrado
-        if (document.getElementById('details-section-1')) document.getElementById('details-section-1').style.display = 'none';
-        if (document.getElementById('gallery-section')) document.getElementById('gallery-section').style.display = 'none';
-        if (document.getElementById('depoimento-section')) document.getElementById('depoimento-section').style.display = 'none';
-        if (document.getElementById('btn-section')) document.getElementById('btn-section').style.display = 'none';
+        showProjectError("Projeto ou evento não encontrado.");
     }
 });
+
+function showProjectError(message) {
+    console.error(message);
+    const projectTitle = document.getElementById('project-title');
+    if (projectTitle) projectTitle.textContent = "Projeto Não Encontrado";
+    
+    const projectIntro = document.getElementById('project-intro');
+    if (projectIntro) projectIntro.textContent = "Parece que o projeto que você procura não existe ou o link está inválido. Por favor, retorne à página inicial.";
+
+    // Ocultar seções dinâmicas se o projeto não for encontrado
+    if (document.getElementById('details-section-1')) document.getElementById('details-section-1').style.display = 'none';
+    if (document.getElementById('gallery-section')) document.getElementById('gallery-section').style.display = 'none';
+    if (document.getElementById('depoimento-section')) document.getElementById('depoimento-section').style.display = 'none';
+    if (document.getElementById('btn-section')) document.getElementById('btn-section').style.display = 'none';
+}
 
 function loadProjectDetails(data) {
     // Atualiza o título da página

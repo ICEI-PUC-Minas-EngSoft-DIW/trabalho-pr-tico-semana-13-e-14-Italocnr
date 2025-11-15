@@ -1,11 +1,464 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>E.E Florentino Arnaldo Coelho</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        xintegrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <link rel="stylesheet" href="../../assets/css/admin.css">
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.css" rel="stylesheet">
 </head>
+
 <body>
-    
+
+    <div id="dashboard" class="dashboard-container">
+
+        <!-- Navbar Superior -->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark rounded-top mt-3 shadow-sm">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#" style="display: flex; align-items: center;">
+                    Painel Administrativo
+                </a>
+                <button class="btn btn-outline-light" id="logout-btn">
+                    <a href="../../index.html">
+                        <i class="fas fa-sign-out-alt me-1"></i> Sair
+                    </a>
+                </button>
+            </div>
+        </nav>
+
+        <!-- Container Principal com Abas -->
+        <div class="container-fluid bg-white p-4 p-md-5 rounded-bottom shadow-lg mb-5">
+
+            <!-- ABAS DE NAVEGAÇÃO -->
+            <ul class="nav nav-tabs mb-4" role="tablist">
+
+                <!-- NOVA ABA: Visão Geral -->
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="dashboard-tab" data-bs-toggle="tab"
+                        data-bs-target="#dashboard-panel" type="button" role="tab">
+                        <i class="fas fa-chart-pie me-1"></i> Visão Geral
+                    </button>
+                </li>
+
+                <!-- ABA: Eventos -->
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="eventos-tab" data-bs-toggle="tab" data-bs-target="#eventos-panel"
+                        type="button" role="tab">
+                        <i class="fas fa-calendar-alt me-1"></i> Eventos
+                    </button>
+                </li>
+
+                <!-- ABA: Matrículas -->
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="matriculas-tab" data-bs-toggle="tab" data-bs-target="#matriculas-panel"
+                        type="button" role="tab">
+                        <i class="fas fa-user-graduate me-1"></i> Matrículas
+                    </button>
+                </li>
+            </ul>
+
+            <!-- CONTEÚDO DAS ABAS -->
+            <div class="tab-content">
+
+                <!-- PAINEL: Visão Geral (NOVO) -->
+                <div class="tab-pane fade show active" id="dashboard-panel" role="tabpanel">
+
+                    <div class="row mb-4">
+                        <!-- Card 1: Matrículas Pendentes -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card stat-card shadow-sm h-100 py-2"
+                                style="border-left-color: var(--bs-warning);">
+                                <div class="card-body">
+                                    <div class="text-start">
+                                        <div class="text-xs fw-bold text-warning text-uppercase mb-1">Matrículas
+                                            Pendentes</div>
+                                        <div class="h3 mb-0 fw-bold text-gray-800" id="stats-matriculas-pendentes">...
+                                        </div>
+                                    </div>
+                                    <i class="fas fa-user-clock fa-3x stat-card-icon"
+                                        style="color: var(--bs-warning);"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 2: Eventos Ativos -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card stat-card shadow-sm h-100 py-2"
+                                style="border-left-color: var(--bs-success);">
+                                <div class="card-body">
+                                    <div class="text-start">
+                                        <div class="text-xs fw-bold text-success text-uppercase mb-1">Eventos Ativos
+                                        </div>
+                                        <div class="h3 mb-0 fw-bold text-gray-800" id="stats-eventos-ativos">...</div>
+                                    </div>
+                                    <i class="fas fa-calendar-check fa-3x stat-card-icon"
+                                        style="color: var(--bs-success);"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 3: Próximo Evento -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card stat-card shadow-sm h-100 py-2" style="border-left-color: var(--bs-info);">
+                                <div class="card-body">
+                                    <div class="text-start">
+                                        <div class="text-xs fw-bold text-info text-uppercase mb-1">Próximo Evento</div>
+                                        <div class="h5 mb-0 fw-bold text-gray-800" id="stats-proximo-evento">...</div>
+                                        <small class="text-muted" id="stats-proximo-evento-data">...</small>
+                                    </div>
+                                    <i class="fas fa-hourglass-half fa-3x stat-card-icon"
+                                        style="color: var(--bs-info);"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 4: Total de Matrículas -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card stat-card shadow-sm h-100 py-2"
+                                style="border-left-color: var(--bs-secondary);">
+                                <div class="card-body">
+                                    <div class="text-start">
+                                        <div class="text-xs fw-bold text-secondary text-uppercase mb-1">Total de
+                                            Inscrições</div>
+                                        <div class="h3 mb-0 fw-bold text-gray-800" id="stats-total-matriculas">...</div>
+                                    </div>
+                                    <i class="fas fa-users fa-3x stat-card-icon"
+                                        style="color: var(--bs-secondary);"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2ª Linha: Gráficos -->
+                    <div class="row">
+                        <!-- Gráfico 1: Matrículas por Série-->
+                        <div class="col-lg-5 mb-4">
+                            <div class="card shadow-sm h-100">
+                                <div class="card-header bg-transparent py-3">
+                                    <h6 class="m-0 fw-bold text-primary">
+                                        <i class="fas fa-chart-pie me-2"></i>Inscrições por Série
+                                    </h6>
+                                </div>
+                                <div class="card-body d-flex align-items-center justify-content-center"
+                                    style="min-height: 350px;">
+                                    <canvas id="matriculasPorSerieChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Gráfico 2: Inscrições ao Longo do Tempo-->
+                        <div class="col-lg-7 mb-4">
+                            <div class="card shadow-sm h-100">
+                                <div class="card-header bg-transparent py-3">
+                                    <h6 class="m-0 fw-bold text-primary">
+                                        <i class="fas fa-chart-line me-2"></i>Novas Matrículas (Últimos 30 dias)
+                                    </h6>
+                                </div>
+                                <div class="card-body" style="min-height: 350px;">
+                                    <!-- O JS vai popular este canvas -->
+                                    <canvas id="matriculasPorDataChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Calendário de Eventos -->
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <div class="card shadow-sm">
+                                <div class="card-header bg-transparent py-3">
+                                    <h6 class="m-0 fw-bold text-primary">
+                                        <i class="fas fa-calendar-alt me-2"></i>Calendário de Eventos
+                                    </h6>
+                                    <small class="text-muted d-block mt-1">
+                                        <i class="fas fa-info-circle me-1"></i>Clique em uma data vazia para criar um novo evento
+                                    </small>
+                                </div>
+                                <div class="card-body">
+                                    <div id="admin-calendar"></div>
+                                    <div class="mt-3">
+                                        <small class="text-muted">
+                                            <strong>Legenda:</strong>
+                                            <span class="badge bg-primary ms-2">Evento Escolar</span>
+                                            <span class="badge bg-danger ms-1">Prova Geral</span>
+                                            <span class="badge bg-success ms-1">Reunião de Pais</span>
+                                            <span class="badge bg-warning text-dark ms-1">Feriado</span>
+                                            <span class="badge bg-info ms-1">Atividade Extracurricular</span>
+                                            <span class="badge bg-purple ms-1">Formação</span>
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- PAINEL: Gerenciar Eventos -->
+                <div class="tab-pane fade" id="eventos-panel" role="tabpanel">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <div>
+                            <h3 class="mb-1">Gerenciar Eventos</h3>
+                            <p class="text-muted mb-0">Crie, edite ou exclua eventos escolares</p>
+                        </div>
+                        <button class="btn btn-primary btn-lg" id="btn-novo-evento" data-bs-toggle="modal"
+                            data-bs-target="#eventoModal">
+                            <i class="fas fa-plus-circle me-1"></i> Novo Evento
+                        </button>
+                    </div>
+
+                    <!-- Lista de Eventos popula pelo admin.js -->
+                    <div id="eventos-list" class="row">
+
+                        <div id="eventos-vazio" class="col-12 text-center py-5" style="display: none;">
+                            <i class="fas fa-calendar-times fa-3x text-muted mb-3"></i>
+                            <h4 class="text-muted">Nenhum evento cadastrado.</h4>
+                            <p class="text-muted">Clique em "Novo Evento" para começar.</p>
+                        </div>
+
+                        <!-- Estado Carregando controlado pelo admin.js -->
+                        <div id="eventos-loading" class="col-12 text-center py-5">
+                            <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
+                                <span class="visually-hidden">Carregando...</span>
+                            </div>
+                            <p class="text-muted mt-2">Carregando eventos...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PAINEL: Gerenciar Matrículas-->
+                <div class="tab-pane fade" id="matriculas-panel" role="tabpanel">
+                    <div class="mb-4">
+                        <h3 class="mb-1">Gerenciar Pré-Matrículas</h3>
+                        <p class="text-muted mb-0">Visualize e gerencie o status das pré-matrículas recebidas.</p>
+                    </div>
+
+                    <!-- Tabela de Matrículas -->
+                    <div class="table-responsive-sm">
+                        <table class="table table-hover align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Aluno</th>
+                                    <th scope="col">Série</th>
+                                    <th scope="col">Responsável</th>
+                                    <th scope="col">Telefone</th>
+                                    <th scope="col">Data Inscrição</th>
+                                    <th scope="col" class="text-center">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="matriculas-table-body">
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div id="matriculas-vazio" class="text-center py-5" style="display: none;">
+                        <i class="fas fa-user-graduate fa-3x text-muted mb-3"></i>
+                        <h4 class="text-muted">Nenhuma pré-matrícula encontrada.</h4>
+                        <p class="text-muted">Os dados de novas matrículas aparecerão aqui.</p>
+                    </div>
+
+                    <div id="matriculas-loading" class="text-center py-5">
+                        <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
+                            <span class="visually-hidden">Carregando...</span>
+                        </div>
+                        <p class="text-muted mt-2">Carregando matrículas...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DE EVENTOS -->
+    <div class="modal fade" id="eventoModal" tabindex="-1" aria-labelledby="eventoModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="eventoModalLabel">Novo Evento</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <form id="evento-form" novalidate>
+                    <div class="modal-body">
+                        <input type="hidden" id="evento-id">
+
+                        <div class="row">
+                            <div class="col-md-12 mb-3">
+                                <label for="evento-titulo" class="form-label fw-bold">
+                                    <i class="fas fa-heading me-2"></i>Título do Evento <span
+                                        class="text-danger">*</span>
+                                </label>
+                                <input type="text" class="form-control form-control-lg" id="evento-titulo"
+                                    placeholder="Ex: Feira de Ciências 2025" required>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12 mb-3">
+                                <label for="evento-introducao" class="form-label fw-bold">
+                                    <i class="fas fa-align-left me-2"></i>Descrição/Introdução <span
+                                        class="text-danger">*</span>
+                                </label>
+                                <textarea class="form-control" id="evento-introducao" rows="3"
+                                    placeholder="Breve descrição que aparecerá no carrossel e nos cards de eventos..." required></textarea>
+                                <small class="form-text text-muted">Esta descrição aparecerá no carrossel e nos cards de eventos (máximo 200 caracteres recomendado).</small>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12 mb-3">
+                                <label for="evento-descricao-detalhada" class="form-label fw-bold">
+                                    <i class="fas fa-file-alt me-2"></i>Descrição Detalhada
+                                </label>
+                                <textarea class="form-control" id="evento-descricao-detalhada" rows="6"
+                                    placeholder="Descreva o evento em detalhes. Esta descrição aparecerá na página de detalhes do evento..."></textarea>
+                                <small class="form-text text-muted">Descrição completa do evento que será exibida na página de detalhes.</small>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="evento-tipo" class="form-label fw-bold">
+                                    <i class="fas fa-tag me-2"></i>Tipo de Evento <span class="text-danger">*</span>
+                                </label>
+                                <select class="form-select" id="evento-tipo" required>
+                                    <option value="evento-escolar">Evento Escolar</option>
+                                    <option value="prova-geral">Prova Geral</option>
+                                    <option value="reuniao-pais">Reunião de Pais</option>
+                                    <option value="feriado">Feriado</option>
+                                    <option value="atividade-extracurricular">Atividade Extracurricular</option>
+                                    <option value="formacao">Formação/Workshop</option>
+                                    <option value="outro">Outro</option>
+                                </select>
+                                <small class="form-text text-muted">Selecione o tipo de evento para melhor
+                                    organização.</small>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="evento-data" class="form-label fw-bold">
+                                    <i class="fas fa-calendar-alt me-2"></i>Data do Evento <span
+                                        class="text-danger">*</span>
+                                </label>
+                                <input type="date" class="form-control" id="evento-data" required>
+                                <small class="form-text text-muted">A data será exibida no calendário.</small>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="evento-layout" class="form-label fw-bold">
+                                    <i class="fas fa-image me-2"></i>Layout na Página de Detalhes
+                                </label>
+                                <select class="form-select" id="evento-layout">
+                                    <option value="image-left">Imagem à Esquerda</option>
+                                    <option value="image-right">Imagem à Direita</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-8 mb-3">
+                                <label for="evento-secao-imagem" class="form-label fw-bold">
+                                    <i class="fas fa-upload me-2"></i>Imagem Principal
+                                </label>
+                                <input type="file" class="form-control" id="evento-secao-imagem" accept="image/*"
+                                    onchange="previewImagemPrincipal(event)">
+                                <small class="form-text text-muted">
+                                    <i class="fas fa-info-circle me-1"></i>Formatos aceitos: JPG, PNG, GIF. Tamanho
+                                    máximo: 5MB
+                                </small>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-bold">Preview</label>
+                                <div id="preview-imagem-principal" class="mt-2" style="display: none;">
+                                    <img id="img-preview-principal" src="" alt="Preview da imagem"
+                                        class="img-fluid rounded shadow-sm border p-2"
+                                        style="max-height: 180px; width: 100%; object-fit: cover; background-color: #f8f9fa;">
+                                </div>
+                                <div id="preview-placeholder" class="text-center text-muted p-3 border rounded"
+                                    style="min-height: 180px; display: flex; align-items: center; justify-content: center;">
+                                    <div>
+                                        <i class="fas fa-image fa-3x mb-2"></i>
+                                        <p class="mb-0 small">Nenhuma imagem selecionada</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr class="my-4">
+
+                        <!-- Toggle de Evento Ativo - Design Melhorado -->
+                        <div class="card border-0 shadow-sm mb-3">
+                            <div class="card-body p-4">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div class="flex-grow-1">
+                                        <div class="d-flex align-items-center mb-2">
+                                            <i class="fas fa-toggle-on fa-2x me-3" id="toggle-icon" style="color: #28a745;"></i>
+                                            <div>
+                                                <h5 class="mb-0 fw-bold" id="toggle-title">Evento Ativo</h5>
+                                                <p class="text-muted mb-0 small" id="toggle-description">O evento está visível no site público</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="ms-3">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="evento-ativo" checked
+                                                style="width: 60px; height: 30px; cursor: pointer;"
+                                                onchange="atualizarToggleEvento()">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer bg-light">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            <i class="fas fa-times me-2"></i>Cancelar
+                        </button>
+                        <button type="submit" class="btn btn-primary" id="salvar-evento-btn">
+                            <i class="fas fa-save me-2"></i>Salvar Evento
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        xintegrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/js/all.min.js"></script>
+
+    <!-- Chart.js (para os gráficos) -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- FullCalendar -->
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/locales/pt-br.global.min.js"></script>
+    <script>
+        // Aguardar FullCalendar carregar
+        window.addEventListener('load', function() {
+            if (typeof FullCalendar === 'undefined') {
+                console.error('FullCalendar não foi carregado! Tentando URL alternativa...');
+                // Tentar URL alternativa
+                const script = document.createElement('script');
+                script.src = 'https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js';
+                script.onload = function() {
+                    console.log('FullCalendar carregado via fallback');
+                };
+                script.onerror = function() {
+                    console.error('Erro ao carregar FullCalendar do CDN');
+                };
+                document.head.appendChild(script);
+            } else {
+                console.log('FullCalendar carregado com sucesso');
+            }
+        });
+    </script>
+    <script src="../../assets/scripts/toggle-evento.js"></script>
+    <script src="../../assets/scripts/admin.js"></script>
 </body>
+
 </html>

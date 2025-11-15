@@ -116,88 +116,175 @@ main section h3 {
     color: #003366 !important;
 }
 
-/* --- ESTILO PARA O CARROSSEL MVV (Missão, Visão, Valores) --- */
-#m_v_v {
-    background-color: #f7f7f7;
+/* --- ESTILO PARA O CARROSSEL DE EVENTOS DESTAQUE --- */
+#eventos-destaque {
     position: relative;
-}
-
-.carousel-inner {
-    min-height: 350px;
-    padding: 20px 0;
     overflow: hidden;
-    position: relative;
 }
 
-.carousel-item {
-    min-height: 300px;
-    display: flex !important;
-    align-items: center;
-    justify-content: center;
+.evento-destaque-slide {
+    height: 500px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 15px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
 
-    opacity: 0;
-    transition: opacity 0.6s ease-in-out;
+.evento-destaque-overlay {
     position: absolute;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
-}
-
-.carousel-item.active {
-    opacity: 1 !important;
-    z-index: 1;
-}
-
-.mvv-card {
-    max-width: 600px;
-    width: 100%;
-    margin: 0 30px;
-    text-align: center;
-
-    background-color: white;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    padding: 30px;
-    border-radius: 10px;
-
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to bottom, rgba(0, 51, 102, 0.7) 0%, rgba(0, 51, 102, 0.9) 100%);
     display: flex;
-    flex-direction: column;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
+    padding: 40px;
 }
 
-.mvv-card h2 {
+.evento-destaque-content {
+    text-align: center;
+    color: white;
+    max-width: 800px;
+    z-index: 2;
+}
+
+.evento-destaque-content h3 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.evento-destaque-content p {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    margin-bottom: 30px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.evento-destaque-date {
+    display: inline-block;
+    background-color: rgba(255, 195, 0, 0.9);
     color: #003366;
-    margin-bottom: 15px;
-    font-size: 28px;
+    padding: 10px 25px;
+    border-radius: 25px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin-bottom: 20px;
 }
 
-.mvv-card ul {
+#eventosCarousel .carousel-control-prev,
+#eventosCarousel .carousel-control-next {
+    width: 50px;
+    height: 50px;
+    background-color: rgba(255, 195, 0, 0.8);
+    border-radius: 50%;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0.8;
+    transition: all 0.3s;
+}
+
+#eventosCarousel .carousel-control-prev:hover,
+#eventosCarousel .carousel-control-next:hover {
+    opacity: 1;
+    background-color: rgba(255, 195, 0, 1);
+}
+
+#eventosCarousel .carousel-control-prev {
+    left: 20px;
+}
+
+#eventosCarousel .carousel-control-next {
+    right: 20px;
+}
+
+#eventosCarousel .carousel-indicators {
+    bottom: 20px;
+}
+
+#eventosCarousel .carousel-indicators button {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.5);
+    border: 2px solid white;
+}
+
+#eventosCarousel .carousel-indicators button.active {
+    background-color: #FFC300;
+    border-color: #FFC300;
+}
+
+/* --- ESTILO PARA MVV (Missão, Visão, Valores) - NOVO LAYOUT --- */
+.mvv-card-modern {
+    background-color: white;
+    border-radius: 15px;
+    padding: 40px 30px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    text-align: center;
+    border-top: 4px solid #003366;
+}
+
+.mvv-card-modern:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.mvv-icon {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #003366 0%, #084b81 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 25px;
+    color: white;
+    font-size: 2rem;
+    box-shadow: 0 5px 15px rgba(0, 51, 102, 0.3);
+}
+
+.mvv-card-modern h3 {
+    color: #003366;
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+.mvv-card-modern p {
+    color: #555;
+    line-height: 1.8;
+    font-size: 1rem;
+}
+
+.mvv-values-list {
     list-style: none;
     padding: 0;
     text-align: left;
-    max-width: 300px;
+    margin-top: 20px;
 }
 
-.mvv-card ul li {
-    margin-bottom: 5px;
-    position: relative;
-    padding-left: 25px;
+.mvv-values-list li {
+    padding: 10px 0;
+    color: #555;
+    font-size: 1rem;
+    border-bottom: 1px solid #eee;
 }
 
-.mvv-card ul li::before {
-    content: "★";
+.mvv-values-list li:last-child {
+    border-bottom: none;
+}
+
+.mvv-values-list li i {
     color: #FFC300;
-    font-size: 14px;
-    position: absolute;
-    left: 0;
-    top: 0;
-}
-
-#mvvCarousel .carousel-control-prev-icon,
-#mvvCarousel .carousel-control-next-icon {
-    filter: invert(1);
-    background-size: 25px;
+    font-size: 1.1rem;
 }
 
 
@@ -402,16 +489,65 @@ section#prof {
 /* Secção Calendário (#ce) */
 #ce {
     text-align: center;
-    background-color: #ffffff;
+    background-color: #f7f7f7;
 }
 
-#ce img {
-    max-width: 900px;
-    width: 100%;
-    height: auto;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    margin-top: 20px;
+#calendar {
+    min-height: 500px;
+}
+
+/* Estilos para FullCalendar */
+.fc {
+    font-family: 'Roboto', sans-serif;
+}
+
+.fc-toolbar-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #003366;
+}
+
+.fc-button-primary {
+    background-color: #003366;
+    border-color: #003366;
+}
+
+.fc-button-primary:hover {
+    background-color: #084b81;
+    border-color: #084b81;
+}
+
+.fc-button-primary:not(:disabled):active,
+.fc-button-primary:not(:disabled).fc-button-active {
+    background-color: #084b81;
+    border-color: #084b81;
+}
+
+.fc-daygrid-event {
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.fc-daygrid-event:hover {
+    opacity: 0.8;
+    transform: scale(1.02);
+}
+
+.fc-event-title {
+    font-weight: 600;
+}
+
+.fc-day:hover {
+    cursor: pointer;
+    background-color: rgba(0, 51, 102, 0.05);
+}
+
+.fc-daygrid-day-frame:hover {
+    background-color: rgba(0, 51, 102, 0.03);
+}
+
+.fc-day-today {
+    background-color: rgba(255, 195, 0, 0.1) !important;
 }
 
 /* Secção Pré-Matrícula (#ma) */
@@ -566,9 +702,38 @@ footer a:hover {
         line-height: 1.8;
     }
 
-    #mvvCarousel .carousel-control-prev,
-    #mvvCarousel .carousel-control-next {
-        width: 5%;
+    /* Ajustes para MVV cards em mobile */
+    .mvv-card-modern {
+        margin-bottom: 20px;
+    }
+
+    .mvv-icon {
+        width: 60px;
+        height: 60px;
+        font-size: 1.5rem;
+    }
+
+    .mvv-card-modern h3 {
+        font-size: 1.5rem;
+    }
+
+    /* Ajustes para carrossel de eventos em mobile */
+    .evento-destaque-slide {
+        height: 350px;
+    }
+
+    .evento-destaque-content h3 {
+        font-size: 1.8rem;
+    }
+
+    .evento-destaque-content p {
+        font-size: 1rem;
+    }
+
+    #eventosCarousel .carousel-control-prev,
+    #eventosCarousel .carousel-control-next {
+        width: 40px;
+        height: 40px;
     }
 }
 
@@ -616,3 +781,4 @@ footer a:hover {
     background-color: #004085;
     border-color: #004085;
 }
+
