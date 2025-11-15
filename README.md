@@ -11,20 +11,18 @@ Para esse projeto, além de mudarmos o JSON para o JSON Server, vamos permitir o
 - Proposta de projeto escolhida:  (Organização e equipes) - Escolas
 - Breve descrição sobre seu projeto: Este projeto é uma Landing Page moderna e responsiva, desenvolvida para simular o website institucional da Escola Estadual fictícia Florentino Arnaldo Coelho. O principal objetivo é demonstrar a aplicação prática de HTML, CSS, o framework Bootstrap e JS para criar uma experiência de usuário (UX) clara e envolvente. A página destaca os pilares de uma instituição de ensino de excelência: Missão visão e Valores,História da escola, Projetos de Destaque (como Iniciação Científica e Cultura) e um Fluxo de Pré-Matrícula direto. O design foi pensado para transmitir confiança, profissionalismo e dinamismo, utilizando uma paleta de cores azul e um layout limpo para facilitar a navegação e a comunicação com a comunidade escolar.
 
-**Print dos testes da API com Postman ou similar**
+**Print das telas implementadas**
+- Carrosel de eventos da pagina principal do site
+![CarroselEventos](public/assets/img/carrosel_de_eventos.png)
+- Calendario de eventos na pagina principal
+![CalendarioEventos](public/assets/img/calendario_eventos.png)
+- HomePage da pagina de administrador
+![HomePageAdmin](public/assets/img/homePage_admin.png)
+- Secção de eventos da pagina de administrador
+![EventosAdmin](public/assets/img/eventos_admin.png)
+- Secção de matriculas da página de administrador
+![MatriculasAdmin](public/assets/img/matriculas_admin.png)
 
-![HOME PAGE](public/assets/img/requisicao_get.png)
-![HOME PAGE](public/assets/img/comprovacao_de_post.png)
-![HOME PAGE](public/assets/img/antes_put.png)
-![HOME PAGE](public/assets/img/depois_put.png)
-![HOME PAGE](public/assets/img/delete.png)
-
-
-**Print da aba NETWORK com requisições Fetch/XHR POST e GET**
-
-![HOME PAGE](public/assets/img/fetch.png)
-![HOME PAGE](public/assets/img/fetch_depois.png)
-![HOME PAGE](public/assets/img/confirmacao_json.png)
 
 ## **Orientações Gerais**
 
